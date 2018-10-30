@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<style>
+			body {
+				background-color: #ffffff;
+				margin: 0;
+				overflow: hidden;
+			}
+		</style>
+	</head>
+	<body>
+
+		<script src="http://threejsplaygnd.brangerbriz.net/js/three.min.js"></script>
+		<script src="http://threejsplaygnd.brangerbriz.net/js/Detector.js"></script>
+		<script>
+
+			if ( ! Detector.webgl ) Detector.addGetWebGLMessage();
+
+			var camera, scene, renderer;
+			var geometry, material, mesh;
+
+			function setup() {
+
+				var W = window.innerWidth, H = window.innerHeight;
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( W, H );
+				document.body.appendChild( renderer.domElement );
+
+				camera = new THREE.PerspectiveCamera( 50, W/H, 1, 10000 );
+				camera.position.z = 500;
+
+				scene = new THREE.Scene();
+
+
+		geometry = new THREE.IcosahedronGeometry(200, 0);
+		material = new THREE.MeshLambertMaterial({shading: THREE.FlatShading, color: 0xdcdcdc, wireframe: true, wireframeLinewidth: 1});
+		mesh = new THREE.Mesh(geometry, material);
+		scene.add(mesh);
+
+
+			}
+
+			function draw() {
+				camera.lookAt(mesh.position);
+				mesh.position.y = Math.sin( Date.now() * 0.002 ) * 450;
+				mesh.rotation.x = Date.now() * 0.0001;
+				mesh.rotation.y = Date.now() * 0.00001;
+				mesh.rotation.z = Date.now() * 0.0001;
+
+				requestAnimationFrame( draw );
+
+
+				renderer.render( scene, camera );
+
+			}
+
+			setup();
+			draw();
+
+		</script>
+
+	</body>
+</html>
